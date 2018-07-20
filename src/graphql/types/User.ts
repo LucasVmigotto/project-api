@@ -82,7 +82,7 @@ export const user = {
   }
 }
 
-export const createUser = {
+export const saveUser = {
   type: UserType,
   args: {
     id: {
