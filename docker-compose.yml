@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  api:
+    build:
+      context: ./docker
+      args:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+    command: npm run dev
+    working_dir: /app
+    environment:
+    - http_proxy
+    - https_proxy
+    - no_proxy
+    - LOCAL_USER_ID
+    - LOCAL_GROUP_ID
+    ports:
+    - 4000:4000
+    - 9229:9229
+    volumes:
+    - .:/app
+    links:
+    - pg
+
+  pg:
+    image: postgres:9
+    environment:
+    - POSTGRES_USER=$DB_USER
+    - POSTGRES_PASSWORD=$DB_PASSWORD
+    - POSTGRES_DB=$DB_DATABASE
+    ports:
+    - 5432
+    volumes:
+    - db:/var/lib/postgresql/data
+
+  pgcli:
+    image: pygmy/pgcli
+    command: postgresql://$DB_USER:$DB_PASSWORD@pg/$DB_DATABASE
+    links:
+    - pg
+
+volumes:
+  db:

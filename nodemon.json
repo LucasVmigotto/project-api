@@ -1,0 +1,11 @@
+{
+    "ignore": "node_modules",
+    "watch": [
+        ".env",
+        "nodemon.json",
+        "tsconfig.json",
+        "src"
+    ],
+    "exec" : [ "npm run start:dev" ],
+    "ext": "ts"
+}

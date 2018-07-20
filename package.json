@@ -1,0 +1,78 @@
+{
+  "name": "simple-project-api",
+  "version": "0.1.0",
+  "description": "A simple project (only API)",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "migrate": "knex --knexfile dist/knexfile.js migrate:latest",
+    "compile": "rimraf dist && tsc",
+    "lint": "standard 'src/**/*.ts && tsc'",
+    "dev": "nodemon",
+    "start:dev": "ts-node -T src/index.ts",
+    "migrate:dev": "knex --knexfile src/knexfile.ts migrate:latest",
+    "migrate:dev:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
+    "migrate:dev:make": "knex --knexfile src/knexfile.ts migrate:make",
+    "test": "NODE_ENV=test mocha --exit 'test/**/*.test.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasVmigotto/simple-project-api.git"
+  },
+  "keywords": [
+    "API",
+    "GraphQL",
+    "NodeJS",
+    "Express"
+  ],
+  "author": "Lucas Vidor Migotto <lucasmigotto@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LucasVmigotto/simple-project-api/issues"
+  },
+  "homepage": "https://github.com/LucasVmigotto/simple-project-api#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "express-winston": "^2.6.0",
+    "graphql": "^0.13.2",
+    "graphql-iso-date": "^3.5.0",
+    "knex": "^0.15.1",
+    "lodash": "^4.17.10",
+    "pg": "^7.4.3",
+    "winston": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/chai-http": "^3.0.5",
+    "@types/express-graphql": "^0.6.1",
+    "@types/express-winston": "^2.4.3",
+    "@types/graphql": "^0.13.3",
+    "@types/graphql-iso-date": "^3.3.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.2",
+    "@types/winston": "^2.3.9",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint-plugin-typescript": "^0.12.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "rimraf": "^2.6.2",
+    "standard": "^11.0.1",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2",
+    "typescript-eslint-parser": "^16.0.1"
+  },
+  "standard": {
+    "parser": "typescript-eslint-parser",
+    "plugins": [
+      "typescript"
+    ],
+    "ignore": [
+      "node_modules/**"
+    ]
+  }
+}
