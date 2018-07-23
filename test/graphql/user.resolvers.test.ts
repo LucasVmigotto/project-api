@@ -6,6 +6,69 @@ import {
 } from '../../src/utils/index'
 describe('GraphQL', () => {
   let userId = null
+  describe('Mutation', () => {
+    describe('saveUser', () => {
+      it('Should create a user', async () => {
+        let body = {
+          query: `
+            mutation {
+              saveUser(input: {
+                name: "Star Wars: The New Hope",
+                birthday: "${dateOnly(new Date('1977-11-18'))}"
+              }) {
+                id
+                name
+                birthday
+                updateAt
+              }
+            }
+          `
+        }
+        const res = await chai.request(app)
+          .post('/graphql')
+          .set('content-type', 'application/json')
+          .send(JSON.stringify(body))
+          .then(handlerGQLError)
+        const { saveUser } = res.body.data
+        userId = saveUser.id
+        expect(saveUser).to.be.an('object')
+        expect(saveUser).to.deep.equal({
+          id: userId,
+          name: 'Star Wars: The New Hope',
+          birthday: new Date('1977-11-18').toISOString(),
+          updateAt: null
+        })
+      })
+      it('Should update user', async () => {
+        let body = {
+          query: `
+            mutation {
+              saveUser(id: "${userId}", input: {
+                name: "Star Wars: The Empire Strikes Back",
+                birthday: "${dateOnly(new Date('1980-07-21'))}"
+              }) {
+                id
+                name
+                birthday
+              }
+            }
+          `
+        }
+        const res = await chai.request(app)
+          .post('/graphql')
+          .set('content-type', 'application/json')
+          .send(JSON.stringify(body))
+          .then(handlerGQLError)
+        const { saveUser } = res.body.data
+        expect(saveUser).to.be.an('object')
+        expect(saveUser).to.deep.equal({
+          id: userId,
+          name: 'Star Wars: The Empire Strikes Back',
+          birthday: new Date('1980-07-21').toISOString()
+        })
+      })
+    })
+  })
   describe('Query', () => {
     describe('users', () => {
       it('Should query users', async () => {
@@ -26,6 +89,8 @@ describe('GraphQL', () => {
           .then(handlerGQLError)
         const { users } = res.body.data
         expect(users).to.be.an('array')
+        expect(users.length).to.greaterThan(0)
+        expect(users[0]).to.be.an('object')
       })
       it('Should found users by name', async () => {
         let body = {
@@ -89,49 +154,11 @@ describe('GraphQL', () => {
         expect(errors).to.be.an('array')
         expect(errors[0].message).to.equal('User not found')
       })
-    })
-  })
-  describe('Mutation', () => {
-    describe('saveUser', () => {
-      it('Should create a user', async () => {
+      it('Should find user by ID', async () => {
         let body = {
           query: `
-            mutation {
-              saveUser(input: {
-                name: "Star Wars: The New Hope",
-                birthday: "${dateOnly(new Date('1977-11-18'))}"
-              }) {
-                id
-                name
-                birthday
-                updateAt
-              }
-            }
-          `
-        }
-        const res = await chai.request(app)
-          .post('/graphql')
-          .set('content-type', 'application/json')
-          .send(JSON.stringify(body))
-          .then(handlerGQLError)
-        const { saveUser } = res.body.data
-        userId = saveUser.id
-        expect(saveUser).to.be.an('object')
-        expect(saveUser).to.deep.equal({
-          id: userId,
-          name: 'Star Wars: The New Hope',
-          birthday: new Date('1977-11-18').toISOString(),
-          updateAt: null
-        })
-      })
-      it('Should update user', async () => {
-        let body = {
-          query: `
-            mutation {
-              saveUser(id: "${userId}", input: {
-                name: "Star Wars: The Empire Strikes Back",
-                birthday: "${dateOnly(new Date('1980-07-21'))}"
-              }) {
+            query {
+              user(id: "${userId}") {
                 id
                 name
                 birthday
@@ -144,15 +171,17 @@ describe('GraphQL', () => {
           .set('content-type', 'application/json')
           .send(JSON.stringify(body))
           .then(handlerGQLError)
-        const { saveUser } = res.body.data
-        expect(saveUser).to.be.an('object')
-        expect(saveUser).to.deep.equal({
+        const { user } = res.body.data
+        expect(user).to.be.an('object')
+        expect(user).to.deep.equal({
           id: userId,
           name: 'Star Wars: The Empire Strikes Back',
           birthday: new Date('1980-07-21').toISOString()
         })
       })
     })
+  })
+  describe('Mutation', () => {
     describe('deleteUser', () => {
       it('Should delete user with false', async () => {
         let body = {
