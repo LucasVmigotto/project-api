@@ -78,7 +78,8 @@ export const user = {
   async resolve (parent, { id }, { logger, db }) {
     const data = await db('user')
       .where('id', '=', id)
-    return camelizeKeys(data)[0]
+    if (data.length === 0) throw new Error('User not found')
+    return camelizeKeys(data[0])
   }
 }
 
