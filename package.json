@@ -1,6 +1,6 @@
 {
   "name": "simple-project-api",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A simple project (only API)",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,8 @@
     "migrate:dev": "knex --knexfile src/knexfile.ts migrate:latest",
     "migrate:dev:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
     "migrate:dev:make": "knex --knexfile src/knexfile.ts migrate:make",
-    "test": "NODE_ENV=test mocha --exit 'test/**/*.test.ts'"
+    "test": "NODE_ENV=test mocha --exit 'test/**/*.test.ts'",
+    "coverage": "nyc --extension .ts --include 'src/**/*.ts' --reporter html --reporter text-summary npm test"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "express-winston": "^2.6.0",
     "graphql": "^0.13.2",
     "graphql-iso-date": "^3.5.0",
+    "humps": "^2.0.1",
     "knex": "^0.15.1",
     "lodash": "^4.17.10",
     "pg": "^7.4.3",
@@ -49,9 +51,10 @@
     "@types/chai": "^4.1.4",
     "@types/chai-http": "^3.0.5",
     "@types/express-graphql": "^0.6.1",
-    "@types/express-winston": "^2.4.3",
+    "@types/express-winston": "2.4.3",
     "@types/graphql": "^0.13.3",
     "@types/graphql-iso-date": "^3.3.0",
+    "@types/humps": "^1.1.2",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.5.2",
     "@types/winston": "^2.3.9",
@@ -60,6 +63,7 @@
     "eslint-plugin-typescript": "^0.12.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
+    "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",
     "ts-node": "^7.0.0",
