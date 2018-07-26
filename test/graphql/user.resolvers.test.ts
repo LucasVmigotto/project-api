@@ -19,6 +19,7 @@ describe('GraphQL', () => {
                 id
                 name
                 birthday
+                createAt
                 updateAt
               }
             }
@@ -32,10 +33,12 @@ describe('GraphQL', () => {
         const { saveUser } = res.body.data
         userId = saveUser.id
         expect(saveUser).to.be.an('object')
+        expect(saveUser.createAt).to.be.an('string')
         expect(saveUser).to.deep.equal({
           id: userId,
           name: 'Star Wars: The New Hope',
           birthday: new Date('1977-11-18').toISOString(),
+          createAt: saveUser.createAt,
           updateAt: null
         })
       })
@@ -50,6 +53,7 @@ describe('GraphQL', () => {
                 id
                 name
                 birthday
+                updateAt
               }
             }
           `
@@ -61,10 +65,12 @@ describe('GraphQL', () => {
           .then(handlerGQLError)
         const { saveUser } = res.body.data
         expect(saveUser).to.be.an('object')
+        expect(saveUser.updateAt).to.be.an('string')
         expect(saveUser).to.deep.equal({
           id: userId,
           name: 'Star Wars: The Empire Strikes Back',
-          birthday: new Date('1980-07-21').toISOString()
+          birthday: new Date('1980-07-21').toISOString(),
+          updateAt: saveUser.updateAt
         })
       })
     })

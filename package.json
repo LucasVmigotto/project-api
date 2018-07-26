@@ -13,7 +13,8 @@
     "migrate:dev": "knex --knexfile src/knexfile.ts migrate:latest",
     "migrate:dev:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
     "migrate:dev:make": "knex --knexfile src/knexfile.ts migrate:make",
-    "test": "NODE_ENV=test mocha --exit 'test/**/*.test.ts'"
+    "test": "NODE_ENV=test mocha --exit 'test/**/*.test.ts'",
+    "coverage": "nyc --extension .ts --include 'src/**/*.ts' --reporter html --reporter text-summary npm test"
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,7 @@
     "eslint-plugin-typescript": "^0.12.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
+    "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",
     "ts-node": "^7.0.0",
