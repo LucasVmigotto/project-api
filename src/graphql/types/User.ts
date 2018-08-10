@@ -15,6 +15,7 @@ import {
   camelizeKeys,
   decamelizeKeys
 } from 'humps'
+import { dateOnly } from '../../utils'
 
 export const UserType = new GraphQLObjectType({
   name: 'User',
@@ -26,8 +27,8 @@ export const UserType = new GraphQLObjectType({
       type: GraphQLString
     },
     birthday: {
-      type: GraphQLDateTime,
-      resolve: d => new Date(d.birthday)
+      type: GraphQLDate,
+      resolve: d => dateOnly(new Date(d.birthday))
     },
     createAt: {
       type: GraphQLDateTime,
@@ -78,7 +79,7 @@ export const user = {
   async resolve (parent, { id }, { logger, db }) {
     const data = await db('user')
       .where('id', '=', id)
-    if (data.length === 0) throw new Error('User not found')
+    if (data.length === 0) return null
     return camelizeKeys(data[0])
   }
 }

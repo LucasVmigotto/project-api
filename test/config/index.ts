@@ -1,9 +1,5 @@
-import * as chai from 'chai'
-import app from '../src/app'
-const chaiHttp = require('chai-http')
-
-chai.use(chaiHttp)
-const expect = chai.expect
+import * as request from 'supertest'
+import app from '../../src/app'
 
 const handlerError = err => {
   const message: string = (err.response)
@@ -13,19 +9,17 @@ const handlerError = err => {
 }
 
 const handlerGQLError = res => {
+  if (res.body && res.body.errors) {
+    return Promise.reject(res.body.errors)
+  }
   if (res.statusCode >= 500 && res.error) {
     return Promise.reject(res.error)
-  }
-  if (res.body.errors) {
-    return Promise.reject(res.body.errors)
   }
   return res
 }
 
 export {
   app,
-  chai,
-  expect,
-  handlerError,
+  request,
   handlerGQLError
 }

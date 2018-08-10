@@ -1,7 +1,7 @@
 import * as knex from 'knex'
 import * as config from '../knexfile'
 
-export const connectDatabase = (options = { logger: null }) => {
+export const connectDatabase = (options) => {
   const db = knex({
     ...config,
     ...options
