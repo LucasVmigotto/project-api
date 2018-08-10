@@ -1,9 +1,10 @@
 import * as Knex from "knex";
+import { decamelizeKeys } from 'humps'
 
 exports.up = async function (knex: Knex): Promise<any> {
   const exists = await knex.schema.hasTable('user')
   if (exists) return false
-  return await knex.schema.createTable('user', (table) => {
+  await knex.schema.createTable('user', (table) => {
     table.increments('id')
       .primary()
     table.string('name', 50)
@@ -13,6 +14,10 @@ exports.up = async function (knex: Knex): Promise<any> {
       .notNullable()
       .defaultTo(knex.fn.now())
     table.timestamp('update_at')
+  })
+  return await knex('user').insert({
+    name: 'Lucas Vidor Migotto',
+    birthday: '2000-02-07'
   })
 };
 

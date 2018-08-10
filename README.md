@@ -11,8 +11,7 @@ Prepare the environment
 ```bash
 docker-compose run --rm api bash
 npm install
-npm run compile
-npm run migrate
+npm run migrate:dev
 exit
 ```
 

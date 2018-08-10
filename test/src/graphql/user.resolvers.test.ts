@@ -1,5 +1,5 @@
-import { app, request, handlerGQLError } from '../config'
-import { dateOnly } from '../../src/utils/index'
+import { app, request, handlerGQLError } from '../../config'
+import { dateOnly } from '../../../src/utils/index'
 
 let user = null
 

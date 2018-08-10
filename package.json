@@ -24,7 +24,8 @@
     "API",
     "GraphQL",
     "NodeJS",
-    "Express"
+    "Express",
+    "Jest"
   ],
   "author": "Lucas Vidor Migotto <lucasmigotto@outlook.com>",
   "license": "MIT",
@@ -33,7 +34,6 @@
   },
   "homepage": "https://github.com/LucasVmigotto/simple-project-api#readme",
   "dependencies": {
-    "axios": "^0.18.0",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",

@@ -32,10 +32,10 @@ app.use(
 
 app.use(expressErrorLogger)
 
-app.use((err, req, res, next) => {
-  res.send({ errors: [
-    { message: err.message }
-  ]})
+app.use((req, res, next) => {
+  res.status(404).send({
+    data: `${req.method}:${req.originalUrl} not found`
+  })
 })
 
 export default app

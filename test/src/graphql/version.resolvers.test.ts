@@ -1,4 +1,4 @@
-import { app, request, handlerGQLError } from '../config'
+import { app, request, handlerGQLError } from '../../config'
 
 describe('Version', () => {
   test('Should return a GraphQL error', async () => {
