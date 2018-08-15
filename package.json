@@ -25,7 +25,8 @@
     "GraphQL",
     "NodeJS",
     "Express",
-    "Jest"
+    "Jest",
+    "JsonWebToken"
   ],
   "author": "Lucas Vidor Migotto <lucasmigotto@outlook.com>",
   "license": "MIT",

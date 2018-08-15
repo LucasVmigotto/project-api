@@ -6,10 +6,10 @@ export const connectDatabase = (options) => {
     ...config,
     ...options
   })
-  const { logger } = options
-  if (logger) {
+  // const { logger } = options
+  if (options.logger) {
     db.on('query', ({ sql, bindings }) => {
-      logger.debug('query', { sql, bindings })
+      options.logger.debug('query', { sql, bindings })
     })
   }
   return (req, res, next) => {

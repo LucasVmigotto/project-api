@@ -1,4 +1,5 @@
 import { app, createToken, request, handlerGQLError } from '../../config'
+import { sign } from 'jsonwebtoken'
 
 let token = null
 let user = null
@@ -7,43 +8,23 @@ describe('User', () => {
   beforeAll(async () => {
     token = await createToken()
   })
-  test('Should fail and return \'null\' trying to login', async () => {
+  test('Should return \'invalid signature\'', async () => {
+    const errToken = sign({ name: 'Error' }, 'wrong key')
     let body = {
       query: `
-        mutation Login($input: CredentialInput!) {
-          login(input: $input, remember: true)
+        query List($token: String!) {
+          viewer(token: $token) { users { id } }
         }
       `,
-      variables: {
-        input: {
-          username: 'not a',
-          password: 'valid user'
-        }
-      }
-    }
-    const res = await request(app)
-      .post('/graphql')
-      .set('content-type', 'application/json')
-      .send(JSON.stringify(body))
-      .then(handlerGQLError)
-    const { login } = res.body.data
-    expect(login).toBeNull()
-  })
-  test('Should return \'Access Denied\'', async () => {
-    let body = {
-      query: `
-        query List {
-          viewer { users { id } }
-        }
-      `
+      variables: { token: errToken }
     }
     const res = await request(app)
       .post('/graphql')
       .set('content-type', 'application/json')
       .send(JSON.stringify(body))
     const { errors } = res.body
-    expect(Array.isArray(errors)).toEqual(true)
-    expect(errors[0].message).toEqual('Access Denied')
+    expect(Array.isArray(errors))
+    expect(errors[0].message).toEqual('invalid signature')
   })
   test('Should return a user list', async () => {
     let body = {
@@ -193,6 +174,24 @@ describe('User', () => {
       id: user.id,
       ...body.variables.input
     })
+  })
+  test('Should return error setting the wrong header', async () => {
+    let body = {
+      query: `
+        mutation Delete($id: id) {
+          deleteUser(id: $id)
+        }
+      `,
+      variables: { id: "0" }
+    }
+    const res = await request(app)
+      .post('/graphql')
+      .set('content-type', 'application/json')
+      .set('authorization', `Error ${token}`)
+      .send(JSON.stringify(body))
+    const { errors } = res.body
+    expect(Array.isArray(errors)).toEqual(true)
+    expect(errors[0].message).toEqual('Unsupported authorization method')
   })
   test('Should fail trying to delete an user', async () => {
     let body = {

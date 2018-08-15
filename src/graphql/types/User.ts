@@ -16,10 +16,7 @@ import {
   decamelizeKeys
 } from 'humps'
 import { sign } from 'jsonwebtoken';
-import {
-  tokenGraphQLResolver,
-  isAuthenticated
-} from '../../security'
+import { tokenGraphQLResolver } from '../../security'
 import { dateOnly } from '../../utils'
 import { cipher } from '../../utils/crypto'
 
@@ -161,7 +158,6 @@ export const saveUser = {
     }
   },
   async resolve (parent, { id, input }, { logger, db, user }) {
-    isAuthenticated(user)
     let data
     if (!id) {
       data = await db('user').insert(decamelizeKeys(input))
@@ -184,7 +180,6 @@ export const deleteUser = {
     }
   },
   async resolve (parent, { id }, { logger, db, user }) {
-    isAuthenticated(user)
     const data = await db('user')
       .where('id', '=', id).del()
     return data === 1

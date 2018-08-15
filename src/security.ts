@@ -1,11 +1,5 @@
 import { verify } from 'jsonwebtoken'
 
-export const isAuthenticated = (user) => {
-  if (!user) {
-    throw new Error('Access Denied')
-  }
-}
-
 export function verifyToken (token, secret) {
   return new Promise((resolve, reject) => {
     verify(token, secret, (err, decodedToken) => {
