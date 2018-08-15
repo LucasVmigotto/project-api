@@ -1,5 +1,5 @@
 import * as Knex from "knex";
-import { decamelizeKeys } from 'humps'
+import { cipher } from '../utils/crypto'
 
 exports.up = async function (knex: Knex): Promise<any> {
   const exists = await knex.schema.hasTable('user')
@@ -7,6 +7,11 @@ exports.up = async function (knex: Knex): Promise<any> {
   await knex.schema.createTable('user', (table) => {
     table.increments('id')
       .primary()
+    table.string('username', 35)
+      .notNullable()
+      .unique()
+    table.string('password')
+      .notNullable()
     table.string('name', 50)
       .notNullable(),
     table.datetime('birthday')
@@ -16,8 +21,11 @@ exports.up = async function (knex: Knex): Promise<any> {
     table.timestamp('update_at')
   })
   return await knex('user').insert({
-    name: 'Lucas Vidor Migotto',
-    birthday: '2000-02-07'
+    username: process.env.ROOT_USERNAME || 'root',
+    password: cipher(process.env.ROOT_USERNAME || 'root',
+      process.env.ROOT_PASSWORD || 'rootroot'),
+    name: process.env.ROOT_NAME || 'Root',
+    birthday: '1997-11-18'
   })
 };
 
