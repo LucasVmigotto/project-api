@@ -1,12 +1,11 @@
 import { GraphQLObjectType } from 'graphql'
 import { version } from './types/Version'
-import { users, user } from './types/User'
+import { viewer } from './types/Viewer'
 
 export const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    version,
-    users,
-    user
+    viewer,
+    version
   }
 })
