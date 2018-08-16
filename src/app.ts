@@ -8,10 +8,11 @@ import { schema } from './graphql/Schema'
 import { tokenExpressResolver } from './security'
 
 const app = express()
+const conn = connectDatabase({ logger })
 
 app.use(cors())
 
-app.use(connectDatabase({ logger }))
+app.use(conn.handler)
 
 app.use(expressLogger, (req: any, res, next) => {
   req.jwtOptions = {
@@ -42,6 +43,10 @@ app.use((err, req, res, next) => {
   res.send({ errors: [
     { message: err.message}
   ]})
+})
+
+app.once('close', function () {
+  conn.db.destroy()
 })
 
 export default app

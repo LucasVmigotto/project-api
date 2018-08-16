@@ -1,7 +1,8 @@
+import '../../src/dotenv'
 import * as request from 'supertest'
-import app from '../../src/app'
-import { sign } from 'jsonwebtoken'
-require('dotenv').config()
+import appAux from '../../src/app'
+
+const app = appAux.listen(0)
 
 const handlerGQLError = res => {
   if (res.body && res.body.errors) {
@@ -35,6 +36,11 @@ async function createToken () {
   const { login } = res.body.data
   return login
 }
+
+afterAll(() => {
+  app.close()
+  appAux.emit('close')
+})
 
 export {
   app,
