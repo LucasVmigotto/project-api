@@ -1,4 +1,9 @@
-# simple-project-api
+<div align="center">
+  <h1>simple-project-api</h1>
+  <a href="https://travis-ci.org/LucasVmigotto/simple-project-api">
+    <img alt="build" src="https://travis-ci.org/LucasVmigotto/simple-project-api.svg?branch=master">
+  </a>
+</div>
 
 A simple project
 
@@ -32,8 +37,14 @@ docker-compose run --rm pgcli
 This API uses [Jest](https://goo.gl/oqnE3P) lb to perform unit tests.
 
 ```bash
-# Test and collect coverage info
+# Test
 npm test
+
+# Test verbose mode
+npm run test:verbose
+
+# Test and collect coverage info
+npm run test:coverage
 
 # Start the test watch mode
 npm run test:watch

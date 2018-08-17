@@ -1,0 +1,36 @@
+language: node_js
+
+node_js:
+  - "8"
+
+env:
+  global:
+    - PORT=4000
+    - LOG_LEVEL=debug
+    - NODE_ENV=dev
+    - ROOT_USERNAME=root
+    - ROOT_PASSWORD=rootroot
+    - ROOT_NAME=Root
+    - JWT_KEY='super secret'
+    - DB_CLIENT=pg
+    - DB_CONNECTION_STRING='postgresql://admin:rootroot@localhost/project'
+
+services:
+  - postgresql
+
+before_install:
+  - psql -c "CREATE DATABASE project;" -U postgres
+  - psql -c "CREATE USER admin WITH PASSWORD 'rootroot';" -U postgres
+
+install:
+  - npm install
+
+before_script:
+  - npm run migrate:dev
+
+script:
+  - npm run test:verbose
+
+branches:
+  only:
+    - master
