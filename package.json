@@ -1,6 +1,6 @@
 {
   "name": "simple-project-api",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A simple project (only API)",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,9 @@
     "migrate:dev": "knex --knexfile src/knexfile.ts migrate:latest",
     "migrate:dev:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
     "migrate:dev:make": "knex --knexfile src/knexfile.ts migrate:make",
-    "test": "jest --verbose --coverage",
+    "test": "jest",
+    "test:verbose": "jest --verbose",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "repository": {
