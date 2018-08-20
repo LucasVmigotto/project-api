@@ -3,6 +3,12 @@
   <a href="https://travis-ci.org/LucasVmigotto/simple-project-api">
     <img alt="build" src="https://travis-ci.org/LucasVmigotto/simple-project-api.svg?branch=master">
   </a>
+  <a href="https://codeclimate.com/github/LucasVmigotto/simple-project-api/maintainability">
+    <img alt="maintainability"      src="https://api.codeclimate.com/v1/badges/3b60ae7998ce4efabba7/maintainability" />
+  </a>
+  <a href="https://codeclimate.com/github/LucasVmigotto/simple-project-api/test_coverage">
+    <img alt="test coverage" src="https://api.codeclimate.com/v1/badges/3b60ae7998ce4efabba7/test_coverage" />
+  </a>
 </div>
 
 A simple project
